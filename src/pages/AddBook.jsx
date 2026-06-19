@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addNewBook } from "../store/booksSlice";
 import { bookCategories } from "../data/books";
+import Toast from "../components/Toast";
 
 const emptyForm = {
   title: "",
@@ -39,6 +40,9 @@ function AddBook() {
   const [formData, setFormData] = useState(emptyForm);
   const [errors, setErrors] = useState({});
 
+  // Feedback alert shown after a successful submit (e.g. "New Book Added!").
+  const [toastMessage, setToastMessage] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -66,7 +70,12 @@ function AddBook() {
 
     // addNewBook unshifts the book, so it shows up first on Browse Books.
     dispatch(addNewBook(newBook));
-    navigate("/books");
+
+    // Confirm the action to the user, reset the form, then head to the
+    // updated book list once they've had a moment to see the alert.
+    setToastMessage("New Book Added! 🎉");
+    setFormData(emptyForm);
+    setTimeout(() => navigate("/books"), 1200);
   };
 
   return (
@@ -145,6 +154,9 @@ function AddBook() {
           Add Book
         </button>
       </form>
+
+      {/* Success alert — confirms the book was added before we navigate away */}
+      <Toast message={toastMessage} onClose={() => setToastMessage("")} />
     </div>
   );
 }
