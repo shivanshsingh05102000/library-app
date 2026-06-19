@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { bookCategories } from "../data/books";
+import BookCard from "../components/BookCard";
 
 function BrowseBooks() {
   const { category } = useParams();
@@ -56,18 +57,7 @@ function BrowseBooks() {
         {visibleBooks.length === 0 ? (
           <p className="no-books">No books found! 😔</p>
         ) : (
-          visibleBooks.map((book) => (
-            <div key={book.id} className="book-card">
-              <div className="book-cover">📖</div>
-              <h3>{book.title}</h3>
-              <p className="author">by {book.author}</p>
-              <p className="category-tag">{book.category}</p>
-              <p className="rating">⭐ {book.rating}</p>
-              <Link to={`/books/${book.category}/${book.id}`} className="btn-details">
-                View Details
-              </Link>
-            </div>
-          ))
+          visibleBooks.map((book) => <BookCard key={book.id} book={book} />)
         )}
       </div>
     </div>

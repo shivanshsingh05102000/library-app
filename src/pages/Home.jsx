@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { bookCategories } from "../data/books";
+import BookCard from "../components/BookCard";
 
 const POPULAR_COUNT = 4;
 
@@ -32,16 +33,7 @@ function Home() {
         <h2>Popular Books</h2>
         <div className="books-grid">
           {popularBooks.map((book) => (
-            <div key={book.id} className="book-card">
-              <div className="book-cover">📖</div>
-              <h3>{book.title}</h3>
-              <p className="author">by {book.author}</p>
-              <p className="category-tag">{book.category}</p>
-              <p className="rating">⭐ {book.rating}</p>
-              <Link to={`/books/${book.category}/${book.id}`} className="btn-details">
-                View Details
-              </Link>
-            </div>
+            <BookCard key={book.id} book={book} />
           ))}
         </div>
       </section>
